@@ -83,7 +83,7 @@ For example, here is an image and the corresponding results summary:
 ```json
 {
     "prediction_id": "9a95126c-f222-4c34-ada0-8686709f6432",
-    "original_img_path": "data/images/street.jpeg",
+    "original_img_path": "data/photos/street.jpeg",
     "predicted_img_path": "static/data/9a95126c-f222-4c34-ada0-8686709f6432/street.jpeg",
     "labels": [
       {

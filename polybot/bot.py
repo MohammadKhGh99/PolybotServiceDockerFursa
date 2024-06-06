@@ -1,3 +1,5 @@
+import boto3
+import requests
 import telebot
 from loguru import logger
 import os
@@ -73,5 +75,18 @@ class ObjectDetectionBot(Bot):
             photo_path = self.download_user_photo(msg)
 
             # TODO upload the photo to S3
+            session = boto3.Session()
+            s3 = session.client('s3', 'us-east-1')
+            bucket_name = os.getenv('BUCKET_NAME')
+            s3.upload_file(photo_path, bucket_name, os.path.basename(photo_path))
             # TODO send an HTTP request to the `yolo5` service for prediction
+            # curl -X POST localhost:8081/predict?imgName=street.jpeg
+            params = {
+                'imgName': os.path.basename(photo_path)
+            }
+            response = requests.post(f'http://localhost:8081/predict',
+                                     params=params)
+
             # TODO send the returned results to the Telegram end-user
+            msg_to_send = "Detected Objects:\n"
+            detected_objects = response.request.raw.json()['labels']
