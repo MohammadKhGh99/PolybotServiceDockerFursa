@@ -1,6 +1,7 @@
 import boto3
 import requests
 import telebot
+from flask import jsonify
 from loguru import logger
 import os
 import time
@@ -19,7 +20,9 @@ class Bot:
         time.sleep(0.5)
 
         # set the webhook URL
-        self.telegram_bot_client.set_webhook(url=f'{telegram_chat_url}/{token}/', timeout=60)
+        self.telegram_bot_client.set_webhook(url=f'{telegram_chat_url}/'
+                                                 f'{token}/', timeout=60,
+                                            certificate=open("cert.pem", "r"))
 
         logger.info(f'Telegram Bot information\n\n{self.telegram_bot_client.get_me()}')
 
@@ -70,23 +73,55 @@ class Bot:
 class ObjectDetectionBot(Bot):
     def handle_message(self, msg):
         logger.info(f'Incoming message: {msg}')
-
+        usage_msg = 'Please send a photo to start object detection'
+        if "text" in msg:
+            if msg["text"] == '/start':
+                self.send_text(msg['chat']['id'], 'Welcome to Object Detection Bot!')
+                self.send_text(msg['chat']['id'], usage_msg)
+                return
         if self.is_current_msg_photo(msg):
             photo_path = self.download_user_photo(msg)
 
-            # TODO upload the photo to S3
+            # upload the photo to S3
+            logger.info(f'Uploading photo to S3: {photo_path}')
             session = boto3.Session()
             s3 = session.client('s3', 'us-east-1')
             bucket_name = os.getenv('BUCKET_NAME')
             s3.upload_file(photo_path, bucket_name, os.path.basename(photo_path))
-            # TODO send an HTTP request to the `yolo5` service for prediction
+
+            # send an HTTP request to the `yolo5` service for prediction
             # curl -X POST localhost:8081/predict?imgName=street.jpeg
+            logger.info('Sending an HTTP request to the yolo5 service')
             params = {
                 'imgName': os.path.basename(photo_path)
             }
-            response = requests.post(f'http://localhost:8081/predict',
-                                     params=params)
+            # post_url = f'http://localhost:8081/predict'
+            # response = requests.post(post_url, params=params)
+            response = requests.post(f"localhost:8081/predict?imgName="
+                                     f"{os.path.basename(photo_path)}")
 
-            # TODO send the returned results to the Telegram end-user
-            msg_to_send = "Detected Objects:\n"
-            detected_objects = response.request.raw.json()['labels']
+            # send the returned results to the Telegram end-user
+            logger.info(f'Received response from yolo5 service: {response.text}')
+            objects_rows = response.text.split('{\'class\':')
+            msg_to_send = (f"We have found *{len(objects_rows) - 1}* objects "
+                           f"in the image\n\n")
+            msg_to_send += "Detected Objects:\n"
+            objects = {}
+
+            # first row has no object
+            for row in objects_rows[1:]:
+                object_name = row.split('\'')[1].strip()
+                if object_name in objects:
+                    objects[object_name] += 1
+                else:
+                    objects[object_name] = 1
+
+            for object_name, count in objects.items():
+                if count > 1:
+                    msg_to_send += f'{object_name}s: {count}\n'
+                else:
+                    msg_to_send += f'{object_name}: {count}\n'
+
+            msg_to_send += "\nObject Detection completed!"
+
+            self.send_text(msg['chat']['id'], msg_to_send)
