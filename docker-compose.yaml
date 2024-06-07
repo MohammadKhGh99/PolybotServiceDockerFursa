@@ -6,6 +6,7 @@ services:
     environment:
       - TELEGRAM_TOKEN=${TELEGRAM_TOKEN}
       - TELEGRAM_APP_URL=${TELEGRAM_APP_URL}
+      - BUCKET_NAME=${BUCKET_NAME}
     networks:
       - mongoCluster
     volumes:
