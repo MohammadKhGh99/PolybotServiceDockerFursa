@@ -50,4 +50,6 @@ services:
     networks:
       - mongoCluster
 
-
+networks:
+    mongoCluster:
+        driver: bridge
