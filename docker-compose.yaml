@@ -11,7 +11,7 @@ services:
     networks:
       - mongoCluster
     volumes:
-      - /home/mohammadgh/.aws/credentials:/root/.aws/credentials
+      - $HOME/.aws/credentials:/root/.aws/credentials
 
   yolo:
     image: ${YOLO_IMG_NAME}
