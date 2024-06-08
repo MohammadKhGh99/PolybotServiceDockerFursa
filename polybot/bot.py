@@ -95,10 +95,10 @@ class ObjectDetectionBot(Bot):
             params = {
                 'imgName': os.path.basename(photo_path)
             }
-            # post_url = f'http://localhost:8081/predict'
-            # response = requests.post(post_url, params=params)
-            response = requests.post(f"localhost:8081/predict?imgName="
-                                     f"{os.path.basename(photo_path)}")
+            post_url = f'http://localhost:8081/predict'
+            response = requests.post(post_url, params=params)
+            # response = requests.post(f"localhost:8081/predict?imgName="
+            #                          f"{os.path.basename(photo_path)}")
 
             # send the returned results to the Telegram end-user
             logger.info(f'Received response from yolo5 service: {response.text}')
