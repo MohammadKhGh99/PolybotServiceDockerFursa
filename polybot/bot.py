@@ -78,7 +78,7 @@ class ObjectDetectionBot(Bot):
             if msg["text"] == '/start':
                 self.send_text(msg['chat']['id'], 'Welcome to Object '
                                                   'Detection Bot!\n'
-                                                  f' {usage_msg}')
+                                                  f'{usage_msg}')
                 return
         if self.is_current_msg_photo(msg):
             self.send_text(msg['chat']['id'], "Processing the photo...")
