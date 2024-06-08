@@ -1,7 +1,6 @@
 import time
 from pathlib import Path
 
-from bson import ObjectId
 from flask import Flask, request
 from detect import run
 import uuid
@@ -95,7 +94,7 @@ def predict():
         # TODO store the prediction_summary in MongoDB
         try:
             # Create a connection to the MongoDB server
-            client = MongoClient('mongodb://172.29.0.2:27017/')
+            client = MongoClient('mongodb://mongo1:27017/')
             # Select the database and the collection
             db = client['prediction_database']
             collection = db['prediction_summary']

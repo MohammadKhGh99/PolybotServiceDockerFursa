@@ -95,7 +95,7 @@ class ObjectDetectionBot(Bot):
             params = {
                 'imgName': os.path.basename(photo_path)
             }
-            post_url = f'yolo:8081/predict'
+            post_url = f'http://yolo:8081/predict'
             response = requests.post(post_url, params=params)
             # response = requests.post(f"localhost:8081/predict?imgName="
             #                          f"{os.path.basename(photo_path)}")
