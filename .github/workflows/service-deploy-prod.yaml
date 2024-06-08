@@ -90,4 +90,5 @@ jobs:
             # Take it up with the current updated values
             docker compose up -d
             sleep 10
+            ls
             bash initiate_replica.sh
