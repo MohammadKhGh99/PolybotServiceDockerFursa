@@ -76,10 +76,12 @@ class ObjectDetectionBot(Bot):
         usage_msg = 'Please send a photo to start object detection'
         if "text" in msg:
             if msg["text"] == '/start':
-                self.send_text(msg['chat']['id'], 'Welcome to Object Detection Bot!')
-                self.send_text(msg['chat']['id'], usage_msg)
+                self.send_text(msg['chat']['id'], 'Welcome to Object '
+                                                  'Detection Bot!\n'
+                                                  f' {usage_msg}')
                 return
         if self.is_current_msg_photo(msg):
+            self.send_text(msg['chat']['id'], "Processing the photo...")
             photo_path = self.download_user_photo(msg)
 
             # upload the photo to S3
@@ -92,18 +94,14 @@ class ObjectDetectionBot(Bot):
             # send an HTTP request to the `yolo5` service for prediction
             # curl -X POST localhost:8081/predict?imgName=street.jpeg
             logger.info('Sending an HTTP request to the yolo5 service')
-            params = {
-                'imgName': os.path.basename(photo_path)
-            }
+            params = {'imgName': os.path.basename(photo_path)}
             post_url = f'http://yolo:8081/predict'
             response = requests.post(post_url, params=params)
-            # response = requests.post(f"localhost:8081/predict?imgName="
-            #                          f"{os.path.basename(photo_path)}")
 
             # send the returned results to the Telegram end-user
             logger.info(f'Received response from yolo5 service: {response.text}')
             objects_rows = response.text.split('{\'class\':')
-            msg_to_send = (f"We have found *{len(objects_rows) - 1}* objects "
+            msg_to_send = (f"We have found {len(objects_rows) - 1} objects "
                            f"in the image\n\n")
             msg_to_send += "Detected Objects:\n"
             objects = {}
