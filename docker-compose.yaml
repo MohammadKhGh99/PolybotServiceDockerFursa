@@ -34,6 +34,8 @@ services:
       - "27017:27017"
     networks:
       - mongoCluster
+    volumes:
+      - mongo1-data:/data/db
 
   mongo2:
     image: mongo:5
@@ -44,6 +46,8 @@ services:
       - "27018:27017"
     networks:
       - mongoCluster
+    volumes:
+      - mongo2-data:/data/db
 
   mongo3:
     image: mongo:5
@@ -54,7 +58,14 @@ services:
       - "27019:27017"
     networks:
       - mongoCluster
+    volumes:
+      - mongo3-data:/data/db
 
 networks:
     mongoCluster:
         driver: bridge
+
+volumes:
+  mongo1-data:
+  mongo2-data:
+  mongo3-data:
