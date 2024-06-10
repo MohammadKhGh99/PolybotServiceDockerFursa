@@ -123,3 +123,5 @@ class ObjectDetectionBot(Bot):
             msg_to_send += "\nObject Detection completed!"
 
             self.send_text(msg['chat']['id'], msg_to_send)
+        else:
+            self.send_text(msg['chat']['id'], usage_msg)
