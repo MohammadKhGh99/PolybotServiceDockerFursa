@@ -22,7 +22,7 @@ Polybot Service is a Telegram bot that allows users to run object detection proc
 
 - Object Detection on Photos: Users can send photo to bot and get how many objects in the photo and the name of the objects.
 - Fast Object Detection: the user will get object detection result in seconds and explained.
-- Data storing persistently: the bot will store the data of the user and the photo in the database.
+- Data storing persistently: the bot will store the data of the user and the photo in the database. 
 
 ## Prerequisites
 
