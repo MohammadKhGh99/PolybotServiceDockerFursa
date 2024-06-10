@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  BOT_INSTANCE_DOMAIN: https://prod-bot.mohammadgh.click:8443  # TODO replace to your bot domain
+  BOT_INSTANCE_DOMAIN: prod-bot.mohammadgh.click
 
 jobs:
   PolybotBuild:
