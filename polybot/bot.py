@@ -95,6 +95,8 @@ class ObjectDetectionBot(Bot):
             # send an HTTP request to the `yolo5` service for prediction
             # curl -X POST localhost:8081/predict?imgName=street.jpeg
             logger.info('Sending an HTTP request to the yolo5 service')
+            logger.info(f'Photo path: {os.path.basename(photo_path)}')
+            logger.info(f'Photo path: {photo_path}')
             params = {'imgName': os.path.basename(photo_path)}
             post_url = f'http://yolo:8081/predict'
             response = requests.post(post_url, params=params)
