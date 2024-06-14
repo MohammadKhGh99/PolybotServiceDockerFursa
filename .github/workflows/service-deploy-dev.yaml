@@ -18,9 +18,9 @@ jobs:
       - name: Build and push image
         run: |
           cd polybot
+          echo "$BOT_INSTANCE_DOMAIN"
           echo -n "${{ secrets.CERT_PEM }}" > cert.pem
           echo -n "${{ secrets.SSL_PRIVATE_KEY }}" > private.key
-          ls
           
           docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
 
