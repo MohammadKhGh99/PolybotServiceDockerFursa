@@ -18,7 +18,7 @@ jobs:
       - name: Build and push image
         run: |
           cd polybot
-          echo "$BOT_INSTANCE_DOMAIN"
+          
           echo -n "${{ secrets.CERT_PEM }}" > cert.pem
           echo -n "${{ secrets.SSL_PRIVATE_KEY }}" > private.key
           
@@ -52,8 +52,7 @@ jobs:
     needs:
       - PolybotBuild
       - Yolo5Build
-    env:
-      BOT_INSTANCE_DOMAIN: dev-bot.mohammadgh.click
+
     steps:
       - name: Checkout the repo code
         uses: actions/checkout@v2
@@ -85,7 +84,7 @@ jobs:
             echo """
             POLYBOT_IMG_NAME=mohammadgh99/polybot:${{ github.run_number }}
             YOLO_IMG_NAME=mohammadgh99/yolo5:${{ github.run_number }}
-            TELEGRAM_APP_URL=$BOT_INSTANCE_DOMAIN
+            TELEGRAM_APP_URL=${{ env.BOT_INSTANCE_DOMAIN }}
             TELEGRAM_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}
             BUCKET_NAME=netflixfrontend-mgh
             """ > .env
