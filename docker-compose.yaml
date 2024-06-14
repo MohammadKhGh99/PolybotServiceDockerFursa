@@ -58,8 +58,6 @@ services:
       - mongoCluster
     volumes:
       - mongo3-data:/data/db
-  run:
-    command: --rm
 
 networks:
     mongoCluster:
