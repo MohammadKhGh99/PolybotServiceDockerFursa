@@ -28,6 +28,7 @@ def predict():
 
     # Receives a URL parameter representing the image to download from S3
     img_name = request.args.get('imgName')
+    print(f"immaaaaaaaaage:  {img_name}")
 
     # download img_name from S3, store the local image path in
     # the original_img_path variable.
