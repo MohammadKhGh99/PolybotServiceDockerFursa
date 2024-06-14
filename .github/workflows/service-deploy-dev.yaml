@@ -28,6 +28,8 @@ jobs:
           docker build -t $IMAGE_NAME .
           docker tag $IMAGE_NAME ${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME
+          
+          rm cert.pem private.key 
 
   Yolo5Build:
     runs-on: ubuntu-latest
