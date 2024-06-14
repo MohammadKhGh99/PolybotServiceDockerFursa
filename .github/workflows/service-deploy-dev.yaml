@@ -19,8 +19,8 @@ jobs:
         run: |
           cd polybot
           
-          echo -n "${{ secrets.CERT_PEM }}" > cert.pem
-          echo -n "${{ secrets.SSL_PRIVATE_KEY }}" > private.key
+          echo "${{ secrets.CERT_PEM }}" > cert.pem
+          echo "${{ secrets.SSL_PRIVATE_KEY }}" > private.key
           
           docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
 
