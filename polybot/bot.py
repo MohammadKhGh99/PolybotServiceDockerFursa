@@ -90,7 +90,7 @@ class ObjectDetectionBot(Bot):
             session = boto3.Session()
             s3 = session.client('s3', 'us-east-1')
             bucket_name = os.getenv('BUCKET_NAME')
-            s3.upload_file(photo_path, bucket_name, os.path.basename(photo_path))
+            s3.upload_file(photo_path, bucket_name, f"{os.path.basename(photo_path)}.png")
 
             # send an HTTP request to the `yolo5` service for prediction
             # curl -X POST localhost:8081/predict?imgName=street.jpeg
