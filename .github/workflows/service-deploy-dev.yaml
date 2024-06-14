@@ -86,7 +86,7 @@ jobs:
             # Generate .env file
             echo """POLYBOT_IMG_NAME=mohammadgh99/polybot:${{ github.run_number }}
             YOLO_IMG_NAME=mohammadgh99/yolo5:${{ github.run_number }}
-            TELEGRAM_APP_URL=https://${{ env.BOT_INSTANCE_DOMAIN }}:8443
+            TELEGRAM_APP_URL=${{ env.BOT_INSTANCE_DOMAIN }}:8443
             TELEGRAM_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}
             BUCKET_NAME=netflixfrontend-mgh""" > .env
             
