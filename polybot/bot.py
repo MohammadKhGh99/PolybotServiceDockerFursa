@@ -44,8 +44,11 @@ class Bot:
             raise RuntimeError(f'Message content of type \'photo\' expected')
 
         file_info = self.telegram_bot_client.get_file(msg['photo'][-1]['file_id'])
+        logger.info(f'File info: {file_info}')
         data = self.telegram_bot_client.download_file(file_info.file_path)
+        logger.info(f'File data: {data}')
         folder_name = file_info.file_path.split('/')[0]
+        logger.info(f'Folder name: {folder_name}')
 
         if not os.path.exists(folder_name):
             os.makedirs(folder_name)
