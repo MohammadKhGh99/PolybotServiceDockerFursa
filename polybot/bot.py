@@ -79,8 +79,9 @@ class ObjectDetectionBot(Bot):
                 self.send_text(msg['chat']['id'], 'Welcome to Object '
                                                   'Detection Bot!\n'
                                                   f'{usage_msg}')
-                return
-        if self.is_current_msg_photo(msg):
+            else:
+                self.send_text(msg['chat']['id'], usage_msg)
+        elif self.is_current_msg_photo(msg):
             self.send_text(msg['chat']['id'], "Processing the photo...")
             photo_path = self.download_user_photo(msg)
 
