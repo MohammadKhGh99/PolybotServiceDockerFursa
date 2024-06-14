@@ -18,7 +18,8 @@ jobs:
       - name: Build and push image
         run: |
           cd polybot
-          cat Dockerfile
+          ls
+          pwd
 
           docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
 
