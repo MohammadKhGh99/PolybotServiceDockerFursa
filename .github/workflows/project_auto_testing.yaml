@@ -39,7 +39,7 @@ jobs:
           script: |
             
             curl -O -L https://raw.githubusercontent.com/alonitac/PolybotServiceDockerFursa/main/test/test-compose-project.sh
-            bash test-compose-project.sh
+            bash test-compose-project.sh 
 
   on-failure:
     runs-on: ubuntu-latest
