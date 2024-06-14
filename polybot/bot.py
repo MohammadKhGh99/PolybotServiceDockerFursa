@@ -44,11 +44,8 @@ class Bot:
             raise RuntimeError(f'Message content of type \'photo\' expected')
 
         file_info = self.telegram_bot_client.get_file(msg['photo'][-1]['file_id'])
-        logger.info(f'File info: {file_info}')
         data = self.telegram_bot_client.download_file(file_info.file_path)
-        logger.info(f'File data: {data}')
         folder_name = file_info.file_path.split('/')[0]
-        logger.info(f'Folder name: {folder_name}')
 
         if not os.path.exists(folder_name):
             os.makedirs(folder_name)
@@ -98,9 +95,8 @@ class ObjectDetectionBot(Bot):
             # send an HTTP request to the `yolo5` service for prediction
             # curl -X POST localhost:8081/predict?imgName=street.jpeg
             logger.info('Sending an HTTP request to the yolo5 service')
-            logger.info(f'Photo path: {os.path.basename(photo_path)}')
-            logger.info(f'Photo path: {photo_path}')
-            params = {'imgName': os.path.basename(photo_path)}
+
+            params = {'imgName': f"{os.path.basename(photo_path)}.png"}
             post_url = f'http://yolo:8081/predict'
             response = requests.post(post_url, params=params)
 
