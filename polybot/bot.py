@@ -90,13 +90,13 @@ class ObjectDetectionBot(Bot):
             session = boto3.Session()
             s3 = session.client('s3', 'us-east-1')
             bucket_name = os.getenv('BUCKET_NAME')
-            s3.upload_file(photo_path, bucket_name, f"{os.path.basename(photo_path)}.png")
+            s3.upload_file(photo_path, bucket_name, f"{os.path.basename(photo_path)}")
 
             # send an HTTP request to the `yolo5` service for prediction
             # curl -X POST localhost:8081/predict?imgName=street.jpeg
             logger.info('Sending an HTTP request to the yolo5 service')
 
-            params = {'imgName': f"{os.path.basename(photo_path)}.png"}
+            params = {'imgName': f"{os.path.basename(photo_path)}"}
             post_url = f'http://yolo:8081/predict'
             response = requests.post(post_url, params=params)
 
